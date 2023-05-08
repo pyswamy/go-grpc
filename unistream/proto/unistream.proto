@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package unistream;
+
+option go_package = "swaammi.com/go-grpc/unistream/proto";
+
+service unistreamService {
+  rpc SendMessage(UniStreamRequest) returns (stream UniStreamResponse) {}
+}
+
+message UniStreamRequest {
+  bytes data = 1;
+}
+
+message UniStreamResponse {
+  bytes response = 1;
+}
