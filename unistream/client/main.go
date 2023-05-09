@@ -1,10 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"context"
-	"fmt"
-	"io"
 	"log"
 
 	"google.golang.org/grpc"
@@ -24,25 +20,26 @@ func main() {
 
 	c := pb.NewUnistreamServiceClient(conn)
 
-	defer conn.Close()
+	doUnistream(c)
+	// defer conn.Close()
 
-	stream, err := c.SendMessage(context.Background(), &pb.UniStreamRequest{})
-	if err != nil {
-		log.Fatalf("error opening stream: %v", err)
-	}
-	fmt.Println("stream: ")
-	// read the stream of StreamResponse messages and concatenate the bytes data
-	var buf bytes.Buffer
-	for {
-		res, err := stream.Recv()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			log.Fatalf("error reading stream: %v", err)
-		}
-		fmt.Println("stream final data: ", string(res.Response))
-		buf.Write(res.Response)
-	}
+	// stream, err := c.SendMessage(context.Background(), &pb.UniStreamRequest{})
+	// if err != nil {
+	// 	log.Fatalf("error opening stream: %v", err)
+	// }
+	// fmt.Println("stream: ")
+	// // read the stream of StreamResponse messages and concatenate the bytes data
+	// var buf bytes.Buffer
+	// for {
+	// 	res, err := stream.Recv()
+	// 	if err == io.EOF {
+	// 		break
+	// 	}
+	// 	if err != nil {
+	// 		log.Fatalf("error reading stream: %v", err)
+	// 	}
+	// 	// fmt.Println("stream final data: ", string(res.Response))
+	// 	buf.Write(res.Response)
+	// }
 
 }
